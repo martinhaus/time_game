@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<main role="main" class="inner cover">
+    <h1 class="cover-heading">Time Game</h1>
+    <h2 class="lead">Time is money | money is Time</h2>
+    <p class="lead"></p>
+
+    <form id="rfidSubmit">
+        <div class="form-group">
+        <label for="rfidId">Bracelet ID</label>
+        <input type="text" class="form-control" id="rfidId" aria-describedby="rfidHelp" placeholder="Tap bracelet on the reader">
+        <small id="rfidHelp" class="form-text text-muted">Input ID of RFID bracelet by tapping in on the reader</small>
+        </div>
+    </form>
+    <div class="row">
+        <label class="col-4">Tag ID</label><input class="col-6" type="text" id="tagId" disabled/>
+    </div>
+    <div class="row">
+        <label class="col-4">Time left</label><input class="col-6" type="text" id="timeLeft"/>
+    </div>
+
+    <input id="updatePlayer" type="button" value="Update"></input>
+    
+</main>
+<script src="{{ url_for('static', filename='js/time_game.js') }}"></script>
+{% endblock %}
