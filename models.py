@@ -1,11 +1,14 @@
 from app import db
 from sqlalchemy.dialects.postgresql import JSON
+from sqlalchemy.ext.declarative import declarative_base
 
+Base = declarative_base()
 
-association_table = Table('association', Base.metadata,
-    Column('player_id', Integer, ForeignKey('player.rfid_id')),
-    Column('group_id', Integer, ForeignKey('group.id'))
+association_table = db.Table('association_table', Base.metadata,
+    db.Column('player_id', db.Integer, db.ForeignKey('player.rfid_id')),
+    db.Column('group_id', db.Integer, db.ForeignKey('group.id'))
 )
+
 
 class Player(db.Model):
     __tablename__ = 'players'
@@ -13,9 +16,10 @@ class Player(db.Model):
     # id = db.Column(db.Integer, primary_key=True)
     rfid_id = db.Column(db.Integer, primary_key=True)
     time = db.Column(db.Integer)
-    groups = relationship(
+    groups = db.relationship(
         "Group",
         secondary=association_table,
+        # primaryjoin=(association_table.c.group_id == id),
         back_populates="players")
 
     def __init__(self, rfid_id, time):
@@ -36,9 +40,10 @@ class Group(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    players = relationship(
+    players = db.relationship(
         "Player",
         secondary=association_table,
+        # primaryjoin=(association_table.c.player_id == id),
         back_populates="groups")
 
     def __init__(self, name):
